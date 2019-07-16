@@ -13,6 +13,10 @@ defined('_JEXEC') or die('Restricted access');
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
+HTMLHelper::_('behavior.modal', 'a.modal');
 
 /**
  * Clusters view
@@ -139,10 +143,27 @@ class ClusterViewClusters extends HtmlView
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options') || $canDo->get('core.import'))
 		{
-			JToolbarHelper::preferences('com_cluster');
-			JToolbarHelper::divider();
+			$document = JFactory::getDocument();
+			$document->addScript(JUri::root() . 'administrator/components/com_cluster/assets/js/import.min.js');
+
+			ToolbarHelper::preferences('com_cluster');
+
+			ToolbarHelper::divider();
+
+			$toolbar = JToolbar::getInstance('toolbar');
+
+			$url = JRoute::_('index.php?option=com_cluster&view=clusters&tmpl=component&layout=clusterimport');
+			$button = '<a class="modal" href=' . $url . '>
+			<span class="icon-upload"></span>' . JText::_('COM_CLUSTER_CSV_IMPORT') . '</a>';
+			$toolbar->appendButton('Link', 'export', $button);
+
+			$filepath = JUri::root() . 'administrator/components/com_cluster/csv/clusterDetails.csv';
+
+			$buttonDownload = '<a href=' . $filepath . '>
+			<span class="icon-download"></span>' . JText::_('COM_CLUSTER_CSV_SAMPLE') . '</a>';
+			$toolbar->appendButton('Link', 'export', $buttonDownload);
 		}
 	}
 
