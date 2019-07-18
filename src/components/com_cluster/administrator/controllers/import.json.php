@@ -108,7 +108,7 @@ class ClusterControllerImport extends BaseController
 	 *
 	 * @param   MIXED  $file_to_upload  file object
 	 *
-	 * @return  object of result and message
+	 * @return  array of result and message
 	 *
 	 * @since 1.0.0
 	 * */
