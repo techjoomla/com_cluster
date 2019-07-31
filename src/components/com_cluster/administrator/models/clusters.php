@@ -106,6 +106,9 @@ class ClusterModelClusters extends ListModel
 			$query->where('(cl.state = 0 OR cl.state = 1)');
 		}
 
+		// Get only enabled users node
+		$query->where($db->quoteName('users.block') . ' = 0');
+
 		// Add the list ordering clause.
 		$orderCol  = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
