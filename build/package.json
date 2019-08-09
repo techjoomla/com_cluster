@@ -1,0 +1,25 @@
+{
+  "package_name": "com_cluster",
+  "core_files": {
+    "src": "./src/components/*",
+    "dest": "builds/"
+  },
+  "subextensions": [
+    {
+      "name": "com_cluster",
+      "repoUrl": "git@github.com:techjoomla/com_cluster.git",
+      "src": "./com_cluster/src/components/com_cluster/*",
+      "dest": "builds/com_cluster",
+      "zip_name": "com_cluster",
+      "format": "zip"
+    }
+  ],
+  "versions": {
+    "1.0.0": {
+      "com_cluster": {
+        "version": "1.0.0",
+        "branch": "release-1.0.0"
+      }
+    }
+  }
+}
