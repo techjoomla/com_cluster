@@ -72,7 +72,7 @@ pipeline {
                     def props = readJSON file: 'scm/build/package.json'
                     
                     // Copy core files
-                    sh("cp -r " + props["core_files"].src + " " + props['core_files'].dest)
+                    // sh("cp -r " + props["core_files"].src + " " + props['core_files'].dest)
 
                     // Copy Make the zips
                     props['subextensions'].eachWithIndex { item, index ->
@@ -130,32 +130,12 @@ pipeline {
                             sh("rm -rf  $item.dest")
                        }
                     }
-                }
-            }
-        }
-
-        stage('Build pacakge') {
-            steps {
-                script {
-                    // // Get commit id
-                    // // @TODO - needs to define shortGitCommit at global level
-                    def gitCommit      = ''
-                    def shortGitCommit = ''
-                    def props = readJSON file: 'scm/build/package.json'
-
-                    // // For branch based build - we need the revision number of tag checked out,
-                    // Custom DIR
-                    dir('scm') {
-                        gitCommit      = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
-                        shortGitCommit = gitCommit[0..7]
-                        echo gitCommit
-                        echo shortGitCommit
-                    }
 
                     // Now we are good to create zip for component
-                    sh('cd builds && zip -rq ../' + props['package_name'] + '_v' + version + "_" + shortGitCommit + '.zip .')
+                    sh('mv com_cluster.zip ../')
 
-                    archiveArtifacts props['package_name'] + '_v' + version + "_" + shortGitCommit + '.zip'
+                    archiveArtifacts "com_cluster.zip"
+
                 }
             }
         }

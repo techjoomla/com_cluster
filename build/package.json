@@ -1,9 +1,5 @@
 {
   "package_name": "com_cluster",
-  "core_files": {
-    "src": "./src/components/*",
-    "dest": "builds/"
-  },
   "subextensions": [
     {
       "name": "com_cluster",
