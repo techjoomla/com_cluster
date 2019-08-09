@@ -131,10 +131,25 @@ pipeline {
                        }
                     }
 
-                    // Now we are good to create zip for component
-                    sh('mv builds/com_cluster.zip ../')
+                    // // Get commit id
+                    // // @TODO - needs to define shortGitCommit at global level
+                    def gitCommit      = ''
+                    def shortGitCommit = ''
 
-                    archiveArtifacts "com_cluster.zip"
+                    // // For branch based build - we need the revision number of tag checked out,
+                    // Custom DIR
+                    dir('scm') {
+                        gitCommit      = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
+                        shortGitCommit = gitCommit[0..7]
+                        echo gitCommit
+                        echo shortGitCommit
+                    }
+
+                    def packageName = "com_cluster_v" + version + "_" + shortGitCommit + ".zip"
+                    // Now we are good to create zip for component
+                    sh("mv builds/com_cluster.zip $packageName")
+
+                    archiveArtifacts packageName
 
                 }
             }
