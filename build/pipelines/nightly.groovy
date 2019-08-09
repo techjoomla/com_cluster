@@ -132,7 +132,7 @@ pipeline {
                     }
 
                     // Now we are good to create zip for component
-                    sh('mv com_cluster.zip ../')
+                    sh('mv builds/com_cluster.zip ../')
 
                     archiveArtifacts "com_cluster.zip"
 
