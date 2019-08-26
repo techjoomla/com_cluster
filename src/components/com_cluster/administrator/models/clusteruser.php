@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Item Model for an Cluster.
@@ -109,5 +110,75 @@ class ClusterModelClusterUser extends AdminModel
 		$data['id'] = $table->id;
 
 		return parent::save($data);
+	}
+
+	/**
+	 * Method to get the list of clusters to which user have access
+	 *
+	 * @param   INT  $userId  Users Id.
+	 *
+	 * @return  ARRAY  List of clusters.
+	 *
+	 * @since   1.0.0
+	 */
+	public function getUsersClusters($userId = null)
+	{
+		$user = empty($userId) ? Factory::getUser() : Factory::getUser($userId);
+
+		$clusters = array();
+
+		// Load cluster library file
+		JLoader::import("/components/com_cluster/includes/cluster", JPATH_ADMINISTRATOR);
+
+		// If user is not allowed to view all the clusters then return the clusters in which user is a part else return al cluster
+		if (!$user->authorise('core.manageall.cluster', 'com_cluster'))
+		{
+			$clusterUsersModel = ClusterFactory::model('ClusterUsers', array('ignore_request' => true));
+			$clusterUsersModel->setState('list.group_by_client_id', 1);
+			$clusterUsersModel->setState('filter.published', 1);
+			$clusterUsersModel->setState('filter.user_id', $user->id);
+
+			// Get all assigned cluster entries
+			$clusters = $clusterUsersModel->getItems();
+		}
+		else
+		{
+			$clusterModel = ClusterFactory::model('Clusters', array('ignore_request' => true));
+
+			// Get all cluster entries
+			$clusterModel->setState('filter.state', 1);
+			$clusters = $clusterModel->getItems();
+		}
+
+		// Get com_subusers component status
+		$subUserExist = ComponentHelper::getComponent('com_subusers', true)->enabled;
+
+		if ($subUserExist)
+		{
+			JLoader::import("/components/com_subusers/includes/rbacl", JPATH_ADMINISTRATOR);
+		}
+
+		$usersClusters = array();
+
+		if (!empty($clusters))
+		{
+			if ($subUserExist && (!$user->authorise('core.manageall.cluster', 'com_cluster')))
+			{
+				foreach ($clusters as $cluster)
+				{
+					// Check user has permission for mentioned cluster
+					if (RBACL::authorise($user->id, 'com_cluster', 'core.manage.cluster', $cluster->id))
+					{
+						$usersClusters[] = $cluster;
+					}
+				}
+			}
+			else
+			{
+				$usersClusters = $clusters;
+			}
+		}
+
+		return $usersClusters;
 	}
 }
