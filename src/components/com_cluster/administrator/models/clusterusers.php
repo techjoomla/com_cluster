@@ -62,24 +62,6 @@ class ClusterModelClusterUsers extends ListModel
 		. $db->quoteName('users.id') . ')');
 		$query->join('INNER', $db->quoteName('#__tj_clusters', 'cl') . ' ON (' . $db->quoteName('cl.id') . ' = ' . $db->quoteName('cu.cluster_id') . ')');
 
-		// Get com_subusers component status
-		$subUserExist = ComponentHelper::getComponent('com_subusers', true)->enabled;
-
-		if ($subUserExist)
-		{
-			$roleId = $this->getState('filter.role_id');
-
-			if (is_numeric($roleId))
-			{
-				$query->join('INNER', $db->qn('#__tjsu_users', 'su') .
-			' ON (' . $db->qn('users.id') . ' = ' . $db->qn('su.user_id') . ' AND ' . $db->qn('su.client') . ' = "com_multiagency" )');
-				$query->join('INNER', $db->qn('#__tjsu_roles', 'r') .
-			' ON (' . $db->qn('r.id') . ' = ' . $db->qn('su.role_id') . ' AND ' . $db->qn('r.state') . ' = 1 )');
-
-				$query->where($db->quoteName('su.role_id') . ' != ' . (int) $roleId);
-			}
-		}
-
 		// Filter by search in title.
 		$search = $this->getState('filter.search');
 

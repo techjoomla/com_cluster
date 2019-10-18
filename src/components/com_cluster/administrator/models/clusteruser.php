@@ -131,11 +131,13 @@ class ClusterModelClusterUser extends AdminModel
 		JLoader::import("/components/com_cluster/includes/cluster", JPATH_ADMINISTRATOR);
 
 		// If user is not allowed to view all the clusters then return the clusters in which user is a part else return al cluster
-		if (!$user->authorise('core.manageall.cluster', 'com_cluster'))
+		if (!$user->authorise('core.manageall', 'com_cluster'))
 		{
 			$clusterUsersModel = ClusterFactory::model('ClusterUsers', array('ignore_request' => true));
 			$clusterUsersModel->setState('list.group_by_client_id', 1);
 			$clusterUsersModel->setState('filter.published', 1);
+			$clusterUsersModel->setState('list.ordering', 'cl.name');
+			$clusterUsersModel->setState('list.direction', 'ASC');
 			$clusterUsersModel->setState('filter.user_id', $user->id);
 
 			// Get all assigned cluster entries
@@ -147,6 +149,8 @@ class ClusterModelClusterUser extends AdminModel
 
 			// Get all cluster entries
 			$clusterModel->setState('filter.state', 1);
+			$clusterModel->setState('list.ordering', 'cl.name');
+			$clusterModel->setState('list.direction', 'ASC');
 			$clusters = $clusterModel->getItems();
 		}
 
@@ -162,12 +166,12 @@ class ClusterModelClusterUser extends AdminModel
 
 		if (!empty($clusters))
 		{
-			if ($subUserExist && (!$user->authorise('core.manageall.cluster', 'com_cluster')))
+			if ($subUserExist && (!$user->authorise('core.manageall', 'com_cluster')))
 			{
 				foreach ($clusters as $cluster)
 				{
 					// Check user has permission for mentioned cluster
-					if (RBACL::authorise($user->id, 'com_cluster', 'core.manage.cluster', $cluster->id))
+					if (RBACL::authorise($user->id, 'com_cluster', 'core.manage', $cluster->cluster_id))
 					{
 						$usersClusters[] = $cluster;
 					}
