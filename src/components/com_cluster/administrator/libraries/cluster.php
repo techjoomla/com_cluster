@@ -231,4 +231,38 @@ class ClusterCluster extends CMSObject
 
 		return false;
 	}
+
+	/**
+	 * Function isMember to check user associated with passed cluster_id
+	 *
+	 * @param   INT  $userId  User Id
+	 *
+	 * @return  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function isMember($userId = null)
+	{
+		$userId = Factory::getuser($userId)->id;
+
+		if (empty($userId))
+		{
+			return false;
+		}
+
+		$ClusterModel = ClusterFactory::model('ClusterUsers', array('ignore_request' => true));
+		$ClusterModel->setState('filter.published', 1);
+		$ClusterModel->setState('filter.cluster_id', (int) $this->id);
+		$ClusterModel->setState('filter.user_id', $userId);
+
+		// Check user associated with passed cluster_id
+		$clusters = $ClusterModel->getItems();
+
+		if (!empty($clusters))
+		{
+			return true;
+		}
+
+		return false;
+	}
 }
