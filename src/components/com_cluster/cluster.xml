@@ -8,7 +8,7 @@
 	<authorEmail>extensions@techjoomla.com</authorEmail>
 	<authorUrl>http://techjoomla.com</authorUrl>
 	<description />
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<install>
 		<!-- Runs on install -->
 		<sql>
