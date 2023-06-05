@@ -28,7 +28,7 @@ class ClusterControllerClusters extends AdminController
 	 *
 	 * @since  1.0.0
 	 */
-	public function getModel($name = 'Cluster', $prefix = 'ClusterModel')
+	public function getModel($name = 'Cluster', $prefix = 'ClusterModel', $config = [])
 	{
 		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}

@@ -8,15 +8,14 @@
 
 // No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * View to edit
  *
  * @since  1.0.0
  */
-class ClusterViewCluster extends JViewLegacy
+class ClusterViewCluster extends HtmlView
 {
 	protected $item;
 

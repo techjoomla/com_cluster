@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\Path;
 
 use Joomla\CMS\Factory;
 
@@ -33,13 +36,13 @@ class ClusterHelper
 		if ($layout != "default")
 		{
 			JHtmlSidebar::addEntry(
-				JText::_('COM_CLUSTERS_VIEW_CLUSTERS'),
+				Text::_('COM_CLUSTERS_VIEW_CLUSTERS'),
 				'index.php?option=com_cluster&view=clusters',
 				$vName == 'clusters'
 			);
 
 			JHtmlSidebar::addEntry(
-				JText::_('COM_CLUSTERS_VIEW_CLUSTER_USERS'),
+				Text::_('COM_CLUSTERS_VIEW_CLUSTER_USERS'),
 				'index.php?option=com_cluster&view=clusterusers',
 				$vName == 'clusterusers'
 			);
@@ -54,7 +57,7 @@ class ClusterHelper
 			// Eg com_jgive
 			$component = $fullClient[0];
 			$eName = str_replace('com_', '', $component);
-			$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+			$file = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
 
 			if (file_exists($file))
 			{
@@ -72,9 +75,9 @@ class ClusterHelper
 						// Loading language file from the administrator/language directory then
 						// Loading language file from the administrator/components/*extension*/language directory
 						$lang->load($component, JPATH_BASE, null, false, false)
-						|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, false)
+						|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, false)
 						|| $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-						|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), $lang->getDefault(), false, false);
+						|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component), $lang->getDefault(), false, false);
 
 						call_user_func(array($cName, 'addSubmenu'), $vName);
 					}
