@@ -7,6 +7,8 @@
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Factory;
 
 // Include dependancies
 jimport('joomla.application.component.controller');
@@ -16,6 +18,6 @@ JLoader::register('ClusterController', JPATH_COMPONENT . '/controller.php');
 
 
 // Execute the task.
-$controller = JControllerLegacy::getInstance('Cluster');
-$controller->execute(JFactory::getApplication()->input->get('task'));
+$controller = BaseController::getInstance('Cluster');
+$controller->execute(Factory::getApplication()->input->get('task'));
 $controller->redirect();

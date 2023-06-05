@@ -9,6 +9,7 @@
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
+use Joomla\Data\DataObject;
 
 use Joomla\CMS\MVC\Model\ListModel;
 
@@ -47,7 +48,7 @@ class ClusterModelClusters extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return   JDatabaseQuery
+	 * @return   DataObjectbaseQuery
 	 *
 	 * @since    1.0.0
 	 */

@@ -8,13 +8,19 @@
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Clusters view
  *
  * @since  1.0.0
  */
-class ClusterViewClusters extends JViewLegacy
+class ClusterViewClusters extends HtmlView
 {
 	/**
 	 * An array of items
@@ -26,7 +32,7 @@ class ClusterViewClusters extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var  JPagination
+	 * @var  Pagination
 	 */
 	protected $pagination;
 
@@ -40,14 +46,14 @@ class ClusterViewClusters extends JViewLegacy
 	/**
 	 * Form object for search filters
 	 *
-	 * @var  JForm
+	 * @var  Form
 	 */
 	public $filterForm;
 
 	/**
 	 * Logged in User
 	 *
-	 * @var  JObject
+	 * @var  CMSObject
 	 */
 	public $user;
 
@@ -122,7 +128,7 @@ class ClusterViewClusters extends JViewLegacy
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Get ACL actions
-		$this->user            = JFactory::getUser();
+		$this->user            = Factory::getUser();
 
 		$this->canCreate       = $this->user->authorise('core.content.create', 'com_cluster');
 		$this->canEdit         = $this->user->authorise('core.content.edit', 'com_cluster');
@@ -142,11 +148,11 @@ class ClusterViewClusters extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'cl.id' => JText::_('JGRID_HEADING_ID'),
-			'cl.title' => JText::_('COM_CLUSTER_LIST_CLUSTERS_NAME'),
-			'cl.client' => JText::_('COM_CLUSTER_LIST_CLUSTERS_CLIENT'),
-			'cl.ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'cl.state' => JText::_('JSTATUS'),
+			'cl.id' => Text::_('JGRID_HEADING_ID'),
+			'cl.title' => Text::_('COM_CLUSTER_LIST_CLUSTERS_NAME'),
+			'cl.client' => Text::_('COM_CLUSTER_LIST_CLUSTERS_CLIENT'),
+			'cl.ordering' => Text::_('JGRID_HEADING_ORDERING'),
+			'cl.state' => Text::_('JSTATUS'),
 		);
 	}
 }
