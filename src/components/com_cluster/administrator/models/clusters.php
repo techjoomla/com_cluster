@@ -58,7 +58,7 @@ class ClusterModelClusters extends ListModel
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
-		$query->select(array('cl.*','users.name as uname'));
+		$query->select(array('cl.*','users.name as uname','cl.id as cluster_id'));
 		$query->from($db->quoteName('#__tj_clusters', 'cl'));
 		$query->join('LEFT', $db->quoteName('#__users', 'users') . ' ON (' . $db->quoteName('cl.created_by') . ' = ' . $db->quoteName('users.id') . ')');
 

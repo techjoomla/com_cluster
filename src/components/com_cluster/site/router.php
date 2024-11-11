@@ -8,6 +8,7 @@
 
 // No direct access
 defined('_JEXEC') or die;
+use Joomla\CMS\Component\Router\RouterBase;
 
 JLoader::registerPrefix('Cluster', JPATH_SITE . '/components/com_cluster/');
 
@@ -16,7 +17,7 @@ JLoader::registerPrefix('Cluster', JPATH_SITE . '/components/com_cluster/');
  *
  * @since  1.0.0
  */
-class ClusterRouter extends JComponentRouterBase
+class ClusterRouter extends RouterBase
 {
 	/**
 	 * Build method for URLs

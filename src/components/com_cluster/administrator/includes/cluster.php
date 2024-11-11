@@ -54,7 +54,7 @@ class ClusterFactory
 	 **/
 	public static function model($name, $config = array())
 	{
-		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_cluster/models');
+		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_cluster/models', 'ClusterModel');
 
 		// @TODO Add support for cache
 		return BaseDatabaseModel::getInstance($name, 'ClusterModel', $config);

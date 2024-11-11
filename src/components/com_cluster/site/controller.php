@@ -8,6 +8,8 @@
 
 // No direct access
 defined('_JEXEC') or die;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Factory;
 
 jimport('joomla.application.component.controller');
 
@@ -17,7 +19,7 @@ JLoader::import('components.com_cluster.includes.cluster', JPATH_ADMINISTRATOR);
  *
  * @since  1.0.0
  */
-class ClusterController extends JControllerLegacy
+class ClusterController extends BaseController
 {
 	/**
 	 * Method to display a view.
@@ -31,7 +33,7 @@ class ClusterController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		$app  = JFactory::getApplication();
+		$app  = Factory::getApplication();
 		$view = $app->input->getCmd('view', 'clusters');
 		$app->input->set('view', $view);
 
