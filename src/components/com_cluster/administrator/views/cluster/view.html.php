@@ -11,6 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View to edit
@@ -70,7 +73,7 @@ class ClusterViewCluster extends HtmlView
 		$this->form  = $this->get('Form');
 		$this->input = Factory::getApplication()->input;
 
-		$this->canDo = JHelperContent::getActions('com_cluster', 'cluster', $this->item->id);
+		$this->canDo = ContentHelper::getActions('com_cluster', 'cluster', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -110,15 +113,15 @@ class ClusterViewCluster extends HtmlView
 		{
 			Factory::getApplication()->input->set('hidemainmenu', true);
 
-			JToolbarHelper::title(
-				JText::_('COM_CLUSTER_PAGE_' . ($checkedOut ? 'VIEW_CLUSTER' : ($isNew ? 'ADD_CLUSTER' : 'EDIT_CLUSTER'))),
+			ToolbarHelper::title(
+				Text::_('COM_CLUSTER_PAGE_' . ($checkedOut ? 'VIEW_CLUSTER' : ($isNew ? 'ADD_CLUSTER' : 'EDIT_CLUSTER'))),
 				'pencil-2 cluster-add'
 			);
 
 			if ($isNew)
 			{
-				JToolbarHelper::save('cluster.save');
-				JToolbarHelper::cancel('cluster.cancel');
+				ToolbarHelper::save('cluster.save');
+				ToolbarHelper::cancel('cluster.cancel');
 			}
 			else
 			{
@@ -126,13 +129,13 @@ class ClusterViewCluster extends HtmlView
 
 				// Can't save the record if it's checked out and editable
 				$this->canSave($checkedOut, $itemEditable);
-				JToolbarHelper::cancel('cluster.cancel', 'JTOOLBAR_CLOSE');
+				ToolbarHelper::cancel('cluster.cancel', 'JTOOLBAR_CLOSE');
 			}
 		}
 		else
 		{
-			JToolbarHelper::title(
-				JText::_('COM_CLUSTER_PAGE_VIEW_CLUSTER')
+			ToolbarHelper::title(
+				Text::_('COM_CLUSTER_PAGE_VIEW_CLUSTER')
 			);
 
 			$app = Factory::getApplication();
@@ -143,7 +146,7 @@ class ClusterViewCluster extends HtmlView
 			$this->sidebar = JHtmlSidebar::render();
 		}
 
-		JToolbarHelper::divider();
+		ToolbarHelper::divider();
 	}
 
 	/**
@@ -159,7 +162,7 @@ class ClusterViewCluster extends HtmlView
 	{
 		if (!$checkedOut && $itemEditable)
 		{
-			JToolbarHelper::save('cluster.save');
+			ToolbarHelper::save('cluster.save');
 		}
 	}
 

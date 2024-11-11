@@ -11,6 +11,7 @@ defined('_JEXEC') or die('Unauthorized Access');
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Language\Text;
 
 /**
  * Cluster class.  Handles all application interaction with a Cluster
@@ -192,7 +193,7 @@ class ClusterCluster extends CMSObject
 	{
 		if (empty($array))
 		{
-			$this->setError(JText::_('COM_CLUSTER_EMPTY_DATA'));
+			$this->setError(Text::_('COM_CLUSTER_EMPTY_DATA'));
 
 			return false;
 		}
@@ -200,7 +201,7 @@ class ClusterCluster extends CMSObject
 		// Bind the array
 		if (!$this->setProperties($array))
 		{
-			$this->setError(\JText::_('COM_CLUSTER_BINDING_ERROR'));
+			$this->setError(Text::_('COM_CLUSTER_BINDING_ERROR'));
 
 			return false;
 		}
@@ -225,6 +226,40 @@ class ClusterCluster extends CMSObject
 		$userId = Factory::getuser($userId)->id;
 
 		if ($this->created_by == $userId)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Function isMember to check user associated with passed cluster_id
+	 *
+	 * @param   INT  $userId  User Id
+	 *
+	 * @return  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function isMember($userId = null)
+	{
+		$userId = Factory::getuser($userId)->id;
+
+		if (empty($userId))
+		{
+			return false;
+		}
+
+		$ClusterModel = ClusterFactory::model('ClusterUsers', array('ignore_request' => true));
+		$ClusterModel->setState('filter.published', 1);
+		$ClusterModel->setState('filter.cluster_id', (int) $this->id);
+		$ClusterModel->setState('filter.user_id', $userId);
+
+		// Check user associated with passed cluster_id
+		$clusters = $ClusterModel->getItems();
+
+		if (!empty($clusters))
 		{
 			return true;
 		}

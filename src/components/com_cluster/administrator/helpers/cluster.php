@@ -10,6 +10,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Cluster helper.
@@ -33,13 +34,13 @@ class ClusterHelper
 		if ($layout != "default")
 		{
 			JHtmlSidebar::addEntry(
-				JText::_('COM_CLUSTERS_VIEW_CLUSTERS'),
+				Text::_('COM_CLUSTERS_VIEW_CLUSTERS'),
 				'index.php?option=com_cluster&view=clusters',
 				$vName == 'clusters'
 			);
 
 			JHtmlSidebar::addEntry(
-				JText::_('COM_CLUSTERS_VIEW_CLUSTER_USERS'),
+				Text::_('COM_CLUSTERS_VIEW_CLUSTER_USERS'),
 				'index.php?option=com_cluster&view=clusterusers',
 				$vName == 'clusterusers'
 			);
